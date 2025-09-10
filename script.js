@@ -1,8 +1,8 @@
-
+import {updateLoc} from "./interface.js";
+import { updateWeatherDisplay } from "./interface.js";
 const fetchButt = document.querySelector('button');
 const cityInput = document.querySelector('input');
-
-
+let currentCity = '';
 
 //function to take location and return weather data
 async function getWeather(){//call asycn function for await fetch
@@ -14,9 +14,11 @@ async function getWeather(){//call asycn function for await fetch
         //use await to assign .json method promise to var
         const weatherData = await response.json();
 
-        let [currentConditions, dailyData] = extractData(weatherData);
-
-        //update visually
+            console.log(weatherData);
+        //pass city name to be displayed
+        updateLoc(weatherData.address)
+        //weatherdata->extractdata returns necessary data->update display
+        updateWeatherDisplay(extractData(weatherData));
 
     }
     catch (error) {//catch errors and return it
@@ -41,7 +43,7 @@ function extractData(weatherData) {
         }
     }
 
-    for(i=0 ; i<=14 ; i++){
+    for(let i=0 ; i<=14 ; i++){// push each day class into dailydata array
         dailyData.push(new Day(
             weatherData.days[i].datetime,
             weatherData.days[i].tempmax,
@@ -54,11 +56,16 @@ function extractData(weatherData) {
     }
 
     let currentData = {
-        
+        temp: weatherData.currentConditions.temp,
+        feelslike: weatherData.currentConditions.feelslike,
+        himidity: weatherData.currentConditions.humidity,
+        conditions: weatherData.currentConditions.conditions,
+        icon: weatherData.currentConditions.icon,
+        uv: weatherData.currentConditions.uvindex
     }
 
     //must return 2 vars
-    return dataObject;
+    return [currentData, dailyData];
 }
 
 //event listener to call getweather and record the location on button click
