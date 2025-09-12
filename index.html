@@ -9,14 +9,31 @@
 </head>
 <body>
     <div id="header">
-        <input type="text" id="inputCity">
-        <button id="fetchData">Get Location</button>
+        <h1>Weather App</h1>
+        <div>
+            <input type="text" id="inputCity">
+            <button id="fetchData">Get Weather</button>
+        </div>
     </div>
-    <p id="resolvedLoc"></p>
-    <div id="weatherContainer">
-        <div id="currentWeather"></div>
-        <div id="weekContainer"></div>
+    <div id="loadedInfo">
+        <p id="resolvedLoc"></p>
+        <p id="overview"></p>
+        <div id="currentWeather">
+            <img src="" id="currIcon"></img>
+            <div id="currDetails">
+                <div id="currConditions"></div>
+                <div id="currTemp"></div>
+                <div id="currFeelslike"></div>
+                <div id="currPrecipitation"></div>
+                <div id="currHumidity"></div>
+                <div id="currUV"></div>
+            </div>
+        </div>
     </div>
+    <div id="loading">
+        <h2>Please wait... loading weather data.</h2>
+    </div>
+    
 
 </body>
 </html>

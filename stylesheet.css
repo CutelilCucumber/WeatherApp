@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-bottom: 2px solid gray;
+    background-color: rgb(111, 192, 58);
+}
+#loadedInfo {
+    margin: 1em;
+    display: none;
+}
+img {
+    border-radius: 8px;
+}
+
+#currentWeather {
+    display: flex;
+    gap: 2em;
+    border: 2px solid skyblue;
+    border-radius: 10px;
+}
+
+#currDetails {
+    display: flex;
+    flex-direction: column;
+    gap: .35em;
+}
+
+#loading {
+    display: none;
+    text-align: center;
+}

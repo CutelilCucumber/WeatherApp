@@ -2,7 +2,6 @@ import {updateLoc} from "./interface.js";
 import { updateWeatherDisplay } from "./interface.js";
 const fetchButt = document.querySelector('button');
 const cityInput = document.querySelector('input');
-let currentCity = '';
 
 //function to take location and return weather data
 async function getWeather(){//call asycn function for await fetch
@@ -10,19 +9,22 @@ async function getWeather(){//call asycn function for await fetch
 
     try {//try method to test for invalid response
         //use await to assign fetch promise to var
-        const response = await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + currentCity + '?key=7776AA8FBBF6VLG9ZUASC8QK5', {mode: 'cors'});
+        const response = await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + cityInput.value + '?key=7776AA8FBBF6VLG9ZUASC8QK5', {mode: 'cors'});
         //use await to assign .json method promise to var
         const weatherData = await response.json();
 
             console.log(weatherData);
         //pass city name to be displayed
         updateLoc(weatherData.address)
+        let [currentConditions, dailyData] = extractData(weatherData);
         //weatherdata->extractdata returns necessary data->update display
-        updateWeatherDisplay(extractData(weatherData));
+        document.getElementById('loading').style.display = 'none';
+        updateWeatherDisplay(currentConditions, dailyData);
 
     }
     catch (error) {//catch errors and return it
         console.error(error);
+        document.getElementById('loading').style.display = 'none';
         return error;
     }
 }
@@ -58,8 +60,8 @@ function extractData(weatherData) {
     let currentData = {
         temp: weatherData.currentConditions.temp,
         feelslike: weatherData.currentConditions.feelslike,
-        himidity: weatherData.currentConditions.humidity,
-        conditions: weatherData.currentConditions.conditions,
+        humidity: weatherData.currentConditions.humidity,
+        conditions: weatherData.description,
         icon: weatherData.currentConditions.icon,
         uv: weatherData.currentConditions.uvindex
     }
@@ -70,8 +72,8 @@ function extractData(weatherData) {
 
 //event listener to call getweather and record the location on button click
 fetchButt.addEventListener('click', () => {
-    currentCity = cityInput.value;
-    console.log(getWeather());
+    getWeather();
+    document.getElementById('loading').style.display = 'block';
 
     
 })
